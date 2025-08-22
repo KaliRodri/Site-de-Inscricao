@@ -1,0 +1,15 @@
+const path = require('path');
+
+module.exports = {
+  // Onde encontrar o arquivo de configuração do banco de dados
+  'config': path.resolve('src', 'config', 'database.js'),
+
+  // Onde encontrar os models da aplicação
+  'models-path': path.resolve('src', 'models'),
+
+  // Onde salvar os arquivos de seeders (dados de teste)
+  'seeders-path': path.resolve('src', 'seeders'),
+
+  // Onde salvar os arquivos de migration
+  'migrations-path': path.resolve('migrations')
+};
