@@ -23,8 +23,8 @@ services:
     restart: always
     environment:
       MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASS}
+      #MYSQL_USER: ${DB_USER}
+      #MYSQL_PASSWORD: ${DB_PASS}
       MYSQL_ROOT_PASSWORD: ${DB_PASS}
     ports:
       - "3307:3306"
@@ -32,8 +32,8 @@ services:
       - mysql_data:/var/lib/mysql
     # O Docker irá rodar este comando a cada 10s para verificar se o MySQL está pronto.
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      timeout: 10s
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_PASS}"]
+      timeout: 20s
       retries: 10
 
 volumes:
