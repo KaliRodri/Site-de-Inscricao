@@ -1,0 +1,15 @@
+# Ignora as dependências locais, pois elas serão instaladas dentro do contêiner
+node_modules
+
+# Ignora logs e arquivos de debug do npm
+npm-debug.log*
+
+# Ignora o arquivo .env, pois as variáveis de ambiente serão injetadas pelo Docker Compose
+.env
+
+# Ignora arquivos específicos do Docker
+Dockerfile
+docker-compose.yml
+
+# Ignora a pasta do Git
+.git
