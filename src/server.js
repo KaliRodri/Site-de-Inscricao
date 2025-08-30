@@ -1,20 +1,27 @@
-require('dotenv').config()
+require('dotenv').config();
 
-const express = require('express')
+const express = require('express');
 const app = express();
 const db = require('./models');
+
+// Importando as rotas
+const inscricoesRoutes = require('./routes/inscricoesRoutes');
 const usuariosRoutes = require('./routes/usuariosRoutes');
 
-app.use(express.json())
+app.use(express.json());
 
+// Rota principal
 app.get('/', (req, res) => {
-    res.send(`Servidor rodando na porta ${process.env.PORT}`)
+  res.send(`Servidor rodando na porta ${process.env.PORT}`);
 });
 
-app.use('/usuarios', usuariosRoutes );
+// Registrando as rotas
+app.use('/inscricoes', inscricoesRoutes);
+app.use('/usuarios', usuariosRoutes);
 
+// Inicializando o servidor e conectando ao banco
 app.listen(process.env.PORT, async () => {
-  console.log ("Servidor Iniciado")
+  console.log("Servidor Iniciado");
   try {
     await db.sequelize.authenticate();
     console.log('Conexão com o banco de dados estabelecida com sucesso.');
