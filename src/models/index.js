@@ -6,8 +6,7 @@ const Sequelize = require('sequelize');
 const process = require('process');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/db.js')[env];
-
+const config = require(__dirname + '/../config/database.js')[env];
 const db = {};
 
 let sequelize;
@@ -27,7 +26,10 @@ fs
     );
   })
   .forEach(file => {
+    // ---- LINHA DE DEPURACÃO ADICIONADA ----
     console.log(`>>> Tentando carregar o model: ${file}`);
+    // ------------------------------------
+
     const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
     db[model.name] = model;
   });

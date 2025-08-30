@@ -1,28 +1,44 @@
-'use strict';
-const { Model } = require('sequelize');
+const { DataTypes } = require("sequelize");
+const sequelize = require("../config/db");
+const Usuario = require("./usuario");
 
-module.exports = (sequelize, DataTypes) => {
-  class Evento extends Model {
-    static associate(models) {
-      // Um Evento pode ter muitas Inscrições.
-      this.hasMany(models.Inscricao, {
-        foreignKey: 'evento_id',
-        as: 'inscricoes'
-      });
-    }
+const Evento = sequelize.define("Evento", {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  titulo: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  descricao: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  },
+  link_slug: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true
+  },
+  closing_date: {
+    type: DataTypes.DATE,
+    allowNull: false
+  },
+  status: {
+    type: DataTypes.ENUM("ativo", "encerrado", "rascunho"),
+    defaultValue: "rascunho"
+  },
+  created_at: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW
   }
-  Evento.init({
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-      allowNull: false,
-    },
-  }, {
-    sequelize,
-    modelName: 'Evento',
-    tableName: 'eventos',
-    timestamps: false 
-  });
-  return Evento;
-};
+}, {
+  tableName: "eventos",
+  timestamps: false
+});
+
+
+Evento.belongsTo(Usuario, { foreignKey: "created_by" });
+
+module.exports = Evento;
