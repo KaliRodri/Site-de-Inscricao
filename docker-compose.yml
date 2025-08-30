@@ -1,0 +1,40 @@
+services:
+  # Serviço da Aplicação Node.js
+  app:
+    build: .
+    container_name: inscricao_app
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=db
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_NAME=${DB_NAME}
+      - DB_PORT=${DB_PORT}
+      - PORT=${PORT}
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # Serviço do Banco de Dados MySQL
+  db:
+    image: mysql:8.0
+    container_name: inscricao_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${DB_NAME}
+      #MYSQL_USER: ${DB_USER}
+      #MYSQL_PASSWORD: ${DB_PASS}
+      MYSQL_ROOT_PASSWORD: ${DB_PASS}
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    # O Docker irá rodar este comando a cada 10s para verificar se o MySQL está pronto.
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_PASS}"]
+      timeout: 20s
+      retries: 10
+
+volumes:
+  mysql_data:
