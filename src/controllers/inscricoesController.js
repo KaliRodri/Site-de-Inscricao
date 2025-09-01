@@ -13,7 +13,7 @@ class InscricaoController {
             const evento = await Evento.findOne({
                 where: {
                     id: evento_id,
-                    status: 'active'
+                    status: 'ativo'
                 }
             });
             if (!evento) {
@@ -39,5 +39,19 @@ class InscricaoController {
             return res.status(500).json({ error: 'Erro interno do servidor.' });
         }
     }
+    async index(req, res) {
+        try {
+            const { id: evento_id } = req.params; // pegar id da url de evento
+            //buscar todos os inscritos no evento id fornecido
+            const inscricoes = await Inscricao.findAll({
+                where: { evento_id },
+                attributes: ['id', 'nome', 'email', 'curso', 'status', 'createdAt']
+            });
+        return res.status(200).json(inscricoes);
+    } catch (error) {
+        console.error('Erro ao buscar inscrições:', error);
+        return res.status(500).json({ error: 'Erro interno do servidor.' });
+    }}
 }
+
 module.exports = new InscricaoController();

@@ -4,6 +4,7 @@ const express = require('express')
 const app = express();
 const db = require('./models');
 const inscricoesRoutes = require('./routes/inscricoesRoutes');
+const testesInscricaoRoutes = require('./routes/testesInscricaoRoutes');
 
 app.use(express.json())
 
@@ -12,6 +13,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/inscricoes', inscricoesRoutes);
+app.use('/eventos', testesInscricaoRoutes);
 
 app.listen(process.env.PORT, async () => {
   console.log ("Servidor Iniciado")
