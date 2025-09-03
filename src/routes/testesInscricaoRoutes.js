@@ -5,7 +5,7 @@ const routes = new Router();
 
 routes.post('/:id/inscricoes', InscricaoController.store);
 routes.get('/:id/inscricoes', authMiddleware, InscricaoController.index);
-
+routes.get('/:id/inscricoes/export', authMiddleware, InscricaoController.exportCsv);
 module.exports = routes;
 
 

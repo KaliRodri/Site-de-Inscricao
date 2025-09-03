@@ -1,4 +1,5 @@
 const {Inscricao, Evento} = require('../models');
+const exportToCSV = require('../utils/exportCSV');
 class InscricaoController {
     async store(req, res) {
         try {
@@ -48,10 +49,31 @@ class InscricaoController {
                 attributes: ['id', 'nome', 'email', 'curso', 'status', 'createdAt']
             });
         return res.status(200).json(inscricoes);
-    } catch (error) {
-        console.error('Erro ao buscar inscrições:', error);
-        return res.status(500).json({ error: 'Erro interno do servidor.' });
-    }}
+        } catch (error) {
+            console.error('Erro ao buscar inscrições:', error);
+            return res.status(500).json({ error: 'Erro interno do servidor.' });
+        }
+    }
+    async exportCsv(req, res) {
+        try {
+            const { id: evento_id } = req.params; // pegar id da url de evento
+            const inscricoes = await Inscricao.findAll({
+                where: { evento_id },
+                attributes: ['id', 'nome', 'email', 'curso', 'status', 'createdAt'],
+                raw: true
+            });
+            if (inscricoes.length === 0) {
+                return res.status(404).json({ error: 'Nenhuma inscrição encontrada para este evento.' });
+            }
+            //define as colunas do csv
+            const fields = ['id', 'nome', 'email', 'curso', 'status', 'createdAt'];
+            const fileName = `inscricoes_evento_${evento_id}.csv`;
+            return exportToCSV(res, fileName, fields, inscricoes);
+        } catch (error) {
+            console.error('Erro ao exportar inscrições para CSV:', error);
+            return res.status(500).json({ error: 'Erro interno do servidor.' });
+        }
+    }
 }
 
 module.exports = new InscricaoController();
