@@ -1,6 +1,6 @@
 const {Router} = require('express');
-const InscricaoController = require('../controllers/inscricoesController');
-const authMiddleware = require('../middlewares/authMiddleware');
+const InscricaoController = require('../src/controllers/inscricoesController');
+const authMiddleware = require('../src/middlewares/authMiddleware');
 const routes = new Router();
 
 routes.post('/:id/inscricoes', InscricaoController.store);

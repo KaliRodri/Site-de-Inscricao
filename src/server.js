@@ -7,7 +7,7 @@ const db = require('./models');
 // Importando as rotas
 const inscricoesRoutes = require('./routes/inscricoesRoutes');
 const usuariosRoutes = require('./routes/usuariosRoutes');
-const testesInscricaoRoutes = require('./routes/testesInscricaoRoutes');
+const testesInscricaoRoutes = require('../test/testesInscricaoRoutes');
 
 app.use(express.json());
 
