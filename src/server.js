@@ -7,6 +7,7 @@ const db = require('./models');
 // Importando as rotas
 const inscricoesRoutes = require('./routes/inscricoesRoutes');
 const usuariosRoutes = require('./routes/usuariosRoutes');
+const testesInscricaoRoutes = require('../test/testesInscricaoRoutes');
 
 app.use(express.json());
 
@@ -17,6 +18,7 @@ app.get('/', (req, res) => {
 
 // Registrando as rotas
 app.use('/inscricoes', inscricoesRoutes);
+app.use('/eventos', testesInscricaoRoutes);
 app.use('/usuarios', usuariosRoutes);
 
 // Inicializando o servidor e conectando ao banco
