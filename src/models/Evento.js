@@ -1,3 +1,6 @@
+
+//adaptei o codigo para o formato correto de modelo do sequelize do  jeito que use index.js
+
 'use strict';
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
