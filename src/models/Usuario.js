@@ -21,13 +21,17 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
+        isEmail: true,
+        validate:{
+          isEmail: true,
+        },
       },
       senha_hash: {
         type: DataTypes.STRING,
         allowNull: false,
       },
       cargo: {
-        type: DataTypes.ENUM("membro, admin"),
+        type: DataTypes.ENUM("membro", "admin"),
         defaultValue: "membro",
         allowNull: false,
       },
