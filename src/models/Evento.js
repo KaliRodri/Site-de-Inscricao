@@ -1,8 +1,15 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../config/db");
-const Usuario = require("./usuario");
-
-const Evento = sequelize.define("Evento", {
+'use strict';
+const { Model } = require('sequelize');
+module.exports = (sequelize, DataTypes) => {
+  class Evento extends Model {
+    static associate(models) {
+      this.hasMany(models.Inscricao, {
+        foreignKey: 'evento_id',
+        as: 'inscricoes'
+      });
+    }
+  }
+Evento.init({
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -28,17 +35,11 @@ const Evento = sequelize.define("Evento", {
   status: {
     type: DataTypes.ENUM("ativo", "encerrado", "rascunho"),
     defaultValue: "rascunho"
-  },
-  created_at: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW
-  }
-}, {
-  tableName: "eventos",
-  timestamps: false
-});
-
-
-Evento.belongsTo(Usuario, { foreignKey: "created_by" });
-
-module.exports = Evento;
+  }}, {
+    sequelize,
+    modelName: "Evento",
+    tableName: "eventos",
+    timestamps: true
+  });
+  return Evento;
+};
