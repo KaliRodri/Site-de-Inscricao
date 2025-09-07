@@ -1,8 +1,8 @@
 require('dotenv').config();
 
 const express = require('express');
-const app = express();
 const db = require('./models');
+const app = require("./app");
 
 // Importando as rotas
 const inscricoesRoutes = require('./routes/inscricoesRoutes');
@@ -21,8 +21,11 @@ app.use('/inscricoes', inscricoesRoutes);
 app.use('/eventos', testesInscricaoRoutes);
 app.use('/usuarios', usuariosRoutes);
 
+module.exports = app;
+
 // Inicializando o servidor e conectando ao banco
-app.listen(process.env.PORT, async () => {
+if (require.main === module){
+  app.listen(process.env.PORT, async () => {
   console.log("Servidor Iniciado");
   try {
     await db.sequelize.authenticate();
@@ -31,3 +34,4 @@ app.listen(process.env.PORT, async () => {
     console.error('Não foi possível conectar ao banco de dados:', error);
   }
 });
+}
