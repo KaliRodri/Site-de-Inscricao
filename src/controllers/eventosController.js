@@ -34,5 +34,26 @@ module.exports = {
       console.error("Erro ao criar evento:", error);
       return res.status(500).json({ erro: "Erro interno no servidor" });
     }
+  },
+
+  async listarEventos(req, res) {
+    try {
+      const eventos = await Evento.findAll({
+        attributes: [
+          "id",
+          "titulo",
+          "descricao",
+          "link_slug",
+          "status",
+          "closing_date"
+        ],
+        where: { status: "ativo" } // filtra apenas eventos ativos
+      });
+
+      return res.json(eventos);
+    } catch (error) {
+      console.error("Erro ao listar eventos:", error);
+      return res.status(500).json({ error: "Erro interno no servidor" });
+    }
   }
 };
