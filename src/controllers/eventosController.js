@@ -36,6 +36,22 @@ module.exports = {
     }
   },
 
+  async detalhesEvento(req, res) {
+    try {
+      const { id } = req.params;
+
+      const evento = await Evento.findByPk(id);
+      if (!evento) {
+        return res.status(404).json({ error: "Evento não encontrado" });
+      }
+
+      return res.json(evento);
+    } catch (error) {
+      console.error("Erro ao buscar detalhes do evento:", error);
+      return res.status(500).json({ error: "Erro interno no servidor" });
+    }
+  },
+
   async editarEvento(req, res) {
     try {
       const { id } = req.params;
@@ -72,7 +88,6 @@ module.exports = {
       }
 
       await Inscricao.destroy({ where: { evento_id: id } });
-
       await evento.destroy();
 
       return res.json({ message: "Evento deletado com sucesso" });
