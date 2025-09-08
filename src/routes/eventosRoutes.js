@@ -6,6 +6,9 @@ const authMiddleware = require("../middlewares/authMiddleware");
 // Criar evento
 router.post("/eventos", eventoController.criarEvento);
 
+// Listar eventos
+router.get("/eventos", eventoController.listarEventos);
+
 // Detalhes de um evento
 router.get("/eventos/:id", eventoController.detalhesEvento);
 

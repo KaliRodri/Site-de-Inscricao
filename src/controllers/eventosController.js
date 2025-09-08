@@ -36,6 +36,27 @@ module.exports = {
     }
   },
 
+  async listarEventos(req, res) {
+    try {
+      const eventos = await Evento.findAll({
+        attributes: [
+          "id",
+          "titulo",
+          "descricao",
+          "link_slug",
+          "status",
+          "closing_date"
+        ],
+        where: { status: "ativo" } // só retorna eventos ativos
+      });
+
+      return res.json(eventos);
+    } catch (error) {
+      console.error("Erro ao listar eventos:", error);
+      return res.status(500).json({ error: "Erro interno no servidor" });
+    }
+  },
+
   async detalhesEvento(req, res) {
     try {
       const { id } = req.params;
